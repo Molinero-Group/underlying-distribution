@@ -68,9 +68,9 @@ I. de A. R and V. M. gratefully acknowledge support by AFOSR through MURI Award 
 
 # License
 
-This code is the active version of the code archived in XXX at (doi:?) and documented in de Almeida Ribeiro, Meister & Molinero (submitted). 
+This code is the active version of the code archived here and documented in de Almeida Ribeiro, Meister & Molinero (submitted). 
 
-You are welcome to use and distribute this code as you see fit, but it remains the intellectual property of the authors and must be cited appropriately (please cite both the paper and the code). Direct any questions about this code to: Ingrid Ribeiro (ingrid.ribeiro@utah.edu), or create an issue in this Github repository.
+You are welcome to use and distribute this code as you see fit, but it remains the intellectual property of the authors and must be cited appropriately (please cite the paper). Direct any questions about this code to: Ingrid Ribeiro (ingrid.ribeiro@utah.edu), or create an issue in this Github repository.
 
 -----
 
