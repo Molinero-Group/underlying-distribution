@@ -96,7 +96,7 @@ fractionofice_cholesterol_fig10.txt and fractionofice_cholesterol_fig13.txt (Zha
 
 # Acknowledgements 
 
-I. de A. R and V. M. gratefully acknowledge support by AFOSR through MURI Award No. FA9550-20-1-0351. K. M. acknowledges support by the National Science Foundation under Grant No. (NSF 2116528).
+I. de A. R and V. M. gratefully acknowledge support by AFOSR through MURI Award No. FA9550-20-1-0351. K. M. acknowledges support by the National Science Foundation under Grant No. (NSF 2116528) and from the Institutional Development Awards (IDeA) from the National Institute of General Medical Sciences of the National Institutes of Health under Grants #P20GM103408, P20GM109095.
 
 # License
 
