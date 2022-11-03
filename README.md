@@ -3,6 +3,7 @@ Table of contents
 =================
 
 <!--ts-->
+   * [Purpose of the codes](#purpose-of-the-codes)
    * [How to cite](#how-to-cite)
    * [General idea](#general-idea)
    * [How to Install the Project](#how-to-install-the-project)
@@ -15,6 +16,14 @@ Table of contents
    * [License](#license)
 <!--te-->
 
+# Purpose of the codes
+
+Drop-freezing experiments are key for the determination of the ice nucleation activity of biotic and abiotic ice nucleators (INs). The results of these experiments are reported as the fraction of frozen droplets $f_{ice} (T)$ as a function of decreasing temperature, and the corresponding cumulative freezing spectra $N_m (T)$ computed using Vali’s methodology. The differential freezing spectrum $n_m (T)$ is in principle a direct measure of the underlying distribution of heterogeneous ice nucleation temperatures $P_u (T)$ in the sample. However, $N_m (T)$ can be noisy, resulting in a differential form $n_m (T)$ that is challenging to interpret. Furthermore, there is no rigorous statistical analysis of how many droplets and dilutions are needed to obtain a well-converged $n_m (T)$ that represents the underlying distribution $P_u (T)$. Here, we present the “Heterogeneous Underlying-based” (HUB) method and associated Python codes that model (HUB-forward code) and interpret (HUB-backward code) the results of drop-freezing experiments.
+
+HUB-forward predicts $f_{ice} (T)$ and $N_m (T)$ from a proposed distribution of IN temperatures.
+
+HUB-backward uses a non-linear optimization method to find the differential freezing spectrum $n_m (T)$ that best represents the experimental target cumulative freezing spectrum $N_m (T)$ or fraction of frozen droplets $f_{ice} (T)$ in the experiments.
+
 # How to cite
 
 This code is the active version of the code archived here and documented in de Almeida Ribeiro, Meister & Molinero, "Optimization of the underlying distribution of heterogeneous ice nucleation temperatures from drop-freezing experiments", (submitted). 
@@ -22,8 +31,6 @@ This code is the active version of the code archived here and documented in de A
 You are welcome to use and distribute this code as you see fit, but it remains the intellectual property of the authors and must be cited appropriately (please cite the paper). Direct any questions about this code to: Ingrid de A. Ribeiro (ingrid.ribeiro@utah.edu), or create an issue in this Github repository.
 
 # General idea
-
-We present the “Heterogeneous Underlying-based” (HUB) method and associated Python codes that model (HUB-forward code) and interpret (HUB-backward code) the results of droplet freezing experiments under the assumptions that each ice nucleating site in the sample has a characteristic nucleation temperature that is time independent. 
 
 HUB-forward predicts $f_{ice} (T)$ and $N_m (T)$ from a proposed distribution of IN temperatures.
 The underlying distribution $P_u(T)$ or the differential freezing spectrum $n_m (T)$ is a mixture of normalized probability distribution functions: 
@@ -36,7 +43,7 @@ Each distribution $P_i(T)$ is defined by a set of parameters:
 - the **mode** $T_{mode,i}$ which is the  most commonly observed value in a set of data, i.e. the x-axis location of the highest peak in that sub population; 
 - the **scaling factor** $s_{i}$ which controls the spread of the distribution.
 
-HUB-backward uses a non-linear optimization method to find the differential freezing spectrum $n_m (T)$ that best represents the experimental target cumulative freezing spectrum $N_m (T)$ or fraction of frozen droplets $f_{ice} (T)$ in the experiments. 
+HUB-backward uses a non-linear optimization method to find the differential freezing spectrum $n_m (T)$ (as a combination of Gaussian distributions) that best represents the experimental target cumulative freezing spectrum $N_m (T)$ or fraction of frozen droplets $f_{ice} (T)$ in the experiments. 
 
 -----
 # How to Install the Project
