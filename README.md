@@ -26,7 +26,7 @@ HUB-backward uses a non-linear optimization method to find the differential free
 
 # How to cite
 
-This code is the active version of the code archived here and documented in de Almeida Ribeiro, Meister & Molinero, "HUB: a method to model and extract the distribution of ice nucleation temperatures from drop-freezing experiments", (submitted). 
+This code is the active version of the code archived here and documented in de Almeida Ribeiro, Meister & Molinero, "HUB: a method to model and extract the distribution of ice nucleation temperatures from drop-freezing experiments", DOI: 10.26434/chemrxiv-2022-ddzv8. 
 
 You are welcome to use and distribute this code as you see fit, but it remains the intellectual property of the authors and must be cited appropriately (please cite the paper). Direct any questions about this code to: Ingrid de A. Ribeiro (ingrid.ribeiro@utah.edu), or create an issue in this Github repository.
 
