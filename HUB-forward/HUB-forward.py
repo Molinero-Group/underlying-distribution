@@ -37,6 +37,13 @@ while(check):
     ndroplets=input("Number of droplets (10-10000): "); ndroplets=int(ndroplets)
     if ndroplets >=10 and ndroplets<=10000:
         check=False
+while(check):
+    distchoice=input("Do you want to change the type of distribution? Default is Gaussian. Yes or No? ")
+    if distchoice == 'No':
+        check=False; disttype=1
+    if distchoice == 'Yes':
+        check=False; 
+        disttype=input("Type 2 for Log-normal or 3 for Gumbel with left tail: "); disttype=int(disttype) 
 check=True
 while(check):
     nconc=input("Number of concentrations (5-9): "); nconc=int(nconc)
@@ -84,16 +91,29 @@ if nsubpop==3:
     print("Underlying distribution composed of 3 subpopulations of INs with Tmode1= "+str(Tmode1)+"^oC, spread1="+str(s1)+", weight1="+str(1-c2-c3)+", Tmode2="+str(Tmode2)+"^oC, spread2="+str(s2)+", weight2="+str(c2)+", Tmode3="+str(Tmode3)+"^oC, spread3="+str(s3)+", weight3="+str(c3))
 ################################################################################
 #The underlying probability distribution function can be modified here
-def normalized_PDF(x,mode,scale):
-    return (1/(scale*np.sqrt(2*np.pi)))*np.exp(-0.5*((x-mode)/scale)**2) # Gaussian distribution
+def normalized_PDF(x,mode,scale,disttype):
+    if disttype==1:
+       return (1/(scale*np.sqrt(2*np.pi)))*np.exp(-0.5*((x-mode)/scale)**2)                  # Gaussian distribution
+    if disttype==2:
+       return (1/((x-mode)*scale*np.sqrt(2*np.pi)))*(np.exp(-0.5*(np.log(x-mode)/scale)**2)) # Log-normal distribution
+    if disttype==3:
+       return (1/scale)*np.exp((x-mode)/scale - np.exp((x-mode)/scale))                      # Gumbel with left-tail
 ################################################################################
 x = np.linspace(-30, 0, num=10000)
 if nsubpop==1:
-   pdf=normalized_PDF(x,param[0],param[1])
+   #pdf=normalized_PDF(x,param[0],param[1])
+   pdf=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf); pdf[ii] = 0
 if nsubpop==2:
-   pdf=(1-param[4])*normalized_PDF(x,param[0],param[1])+param[4]*normalized_PDF(x,param[2],param[3])
+   #pdf=(1-param[4])*normalized_PDF(x,param[0],param[1])+param[4]*normalized_PDF(x,param[2],param[3])
+   pdf1=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf1); pdf1[ii] = 0
+   pdf2=normalized_PDF(temp_fit,param[2],param[3],disttype); ii = np.isnan(pdf2); pdf2[ii] = 0
+   pdf=(1-param[4])*pdf1+param[4]*pdf2
 if nsubpop==3:
-   pdf=(1-param[4]-param[5])*normalized_PDF(x,param[0],param[1])+param[4]*normalized_PDF(x,param[2],param[3])+param[5]*normalized_PDF(x,param[6],param[7])
+   #pdf=(1-param[4]-param[5])*normalized_PDF(x,param[0],param[1])+param[4]*normalized_PDF(x,param[2],param[3])+param[5]*normalized_PDF(x,param[6],param[7])
+   pdf1=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf1); pdf1[ii] = 0
+   pdf2=normalized_PDF(temp_fit,param[2],param[3],disttype); ii = np.isnan(pdf2); pdf2[ii] = 0
+   pdf3=normalized_PDF(temp_fit,param[5],param[6],disttype); ii = np.isnan(pdf3); pdf3[ii] = 0
+   pdf=(1-param[4]-param[7])*pdf1+param[4]*pdf2+param[7]*pdf3
 norm=np.sum(pdf)
 pdf=pdf/norm
 ######################################################################################################################
