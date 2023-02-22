@@ -33,8 +33,13 @@ mpl.rcParams['xtick.direction'] = 'in'
 mpl.rcParams['ytick.direction'] = 'in'
 mpl.rcParams['xtick.top'] = True
 mpl.rcParams['ytick.right'] = True
-def normalized_PDF(x,mode,scale):
-    return (1/(scale*np.sqrt(2*np.pi)))*np.exp(-0.5*((x-mode)/scale)**2) # Gaussian distribution
+def normalized_PDF(x,mode,scale,disttype):
+    if disttype==1:
+       return (1/(scale*np.sqrt(2*np.pi)))*np.exp(-0.5*((x-mode)/scale)**2)                  # Gaussian distribution
+    if disttype==2:
+       return (1/((x-mode)*scale*np.sqrt(2*np.pi)))*(np.exp(-0.5*(np.log(x-mode)/scale)**2)) # Log-normal distribution
+    if disttype==3:
+       return (1/scale)*np.exp((x-mode)/scale - np.exp((x-mode)/scale))                      # Gumbel with left-tail
 ######################################################################################################################
 ######################################################################################################################
 ######################################################################################################################
@@ -80,6 +85,14 @@ while(check):
     if poly == 'Yes':
         check=False; 
         polyorder=input("What is the new polynomial order? "); polyorder=int(polyorder)
+check=True
+while(check):
+    distchoice=input("Do you want to change the type of distribution? Default is Gaussian. Yes or No? ")
+    if distchoice == 'No':
+        check=False; disttype=1
+    if distchoice == 'Yes':
+        check=False; 
+        disttype=input("Type 2 for Log-normal or 3 for Gumbel with left tail: "); disttype=int(disttype) 
 nsubpop=0
 while nsubpop<1 or nsubpop>3:
    nsubpop=input("Number of subpopulations (1, 2 or 3): "); nsubpop=int(nsubpop)
@@ -216,21 +229,28 @@ if initial_guess is True:
           beta=param[8]
        if fice is True:
           beta=1
-       Prob = (1-param[4]-param[7])*  normalized_PDF(temp_fit,param[0],param[1])+param[4]*  normalized_PDF(temp_fit,param[2],param[3])+param[7]*  normalized_PDF(temp_fit,param[5],param[6])
+       #Prob = (1-param[4]-param[7])*  normalized_PDF(temp_fit,param[0],param[1])+param[4]*  normalized_PDF(temp_fit,param[2],param[3])+param[7]*  normalized_PDF(temp_fit,param[5],param[6])
+       pdf1=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf1); pdf1[ii] = 0
+       pdf2=normalized_PDF(temp_fit,param[2],param[3],disttype); ii = np.isnan(pdf2); pdf2[ii] = 0
+       pdf3=normalized_PDF(temp_fit,param[5],param[6],disttype); ii = np.isnan(pdf3); pdf3[ii] = 0
+       Prob=(1-param[4]-param[7])*pdf1+param[4]*pdf2+param[7]*pdf3
    if nsubpop==2:
        param=p0
        if fice is False:
           beta=param[5]
        if fice is True:
           beta=1
-       Prob = (1-param[4])*  normalized_PDF(temp_fit,param[0],param[1])+param[4]*  normalized_PDF(temp_fit,param[2],param[3]) 
+       #Prob = (1-param[4])*  normalized_PDF(temp_fit,param[0],param[1])+param[4]*  normalized_PDF(temp_fit,param[2],param[3]) 
+       pdf1=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf1); pdf1[ii] = 0
+       pdf2=normalized_PDF(temp_fit,param[2],param[3],disttype); ii = np.isnan(pdf2); pdf2[ii] = 0
+       Prob=(1-param[4])*pdf1+param[4]*pdf2
    if nsubpop==1:
        param=p0
        if fice is False:
           beta=param[2]
        if fice is True:
           beta=1
-       Prob =   normalized_PDF(temp_fit,param[0],param[1])
+       Prob =   normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(Prob); Prob[ii] = 0
    integral_normalized=np.cumsum(Prob)*delta_temp
    if fice is False:
       #g=beta*(1-integral_normalized)
@@ -268,19 +288,26 @@ def objective_function(param):
           beta=param[8]
        if fice is True:
           beta=1
-       Prob = (1-param[4]-param[7])*normalized_PDF(temp_fit,param[0],param[1])+param[4]*  normalized_PDF(temp_fit,param[2],param[3])+param[7]*  normalized_PDF(temp_fit,param[5],param[6])
+       #Prob = (1-param[4]-param[7])*normalized_PDF(temp_fit,param[0],param[1])+param[4]*  normalized_PDF(temp_fit,param[2],param[3])+param[7]*  normalized_PDF(temp_fit,param[5],param[6])
+       pdf1=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf1); pdf1[ii] = 0
+       pdf2=normalized_PDF(temp_fit,param[2],param[3],disttype); ii = np.isnan(pdf2); pdf2[ii] = 0
+       pdf3=normalized_PDF(temp_fit,param[5],param[6],disttype); ii = np.isnan(pdf3); pdf3[ii] = 0
+       Prob=(1-param[4]-param[7])*pdf1+param[4]*pdf2+param[7]*pdf3
    if nsubpop==2:
        if fice is False:
           beta=param[5]
        if fice is True:
           beta=1
-       Prob = (1-param[4])*normalized_PDF(temp_fit,param[0],param[1])+param[4]*  normalized_PDF(temp_fit,param[2],param[3]) 
+       #Prob = (1-param[4])*normalized_PDF(temp_fit,param[0],param[1])+param[4]*  normalized_PDF(temp_fit,param[2],param[3]) 
+       pdf1=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf1); pdf1[ii] = 0
+       pdf2=normalized_PDF(temp_fit,param[2],param[3],disttype); ii = np.isnan(pdf2); pdf2[ii] = 0
+       Prob=(1-param[4])*pdf1+param[4]*pdf2
    if nsubpop==1:
        if fice is False:
           beta=param[2]
        if fice is True:
           beta=1
-       Prob = normalized_PDF(temp_fit,param[0],param[1]) 
+       Prob = normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(Prob); Prob[ii] = 0
             
    integral_normalized=np.cumsum(Prob)*(temp_fit[1]-temp_fit[0])
    if fice is False:
@@ -342,19 +369,26 @@ def function_generate_artificial_Nm(param,factor_Nm_underlying):
           beta=param[8]
        if fice is True:
           beta=1
-       Prob = (1-param[4]-param[7])*normalized_PDF(temp_fit,param[0],param[1])+param[4]*normalized_PDF(temp_fit,param[2],param[3])+param[7]*normalized_PDF(temp_fit,param[5],param[6])
+       #Prob = (1-param[4]-param[7])*normalized_PDF(temp_fit,param[0],param[1])+param[4]*normalized_PDF(temp_fit,param[2],param[3])+param[7]*normalized_PDF(temp_fit,param[5],param[6])
+       pdf1=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf1); pdf1[ii] = 0
+       pdf2=normalized_PDF(temp_fit,param[2],param[3],disttype); ii = np.isnan(pdf2); pdf2[ii] = 0
+       pdf3=normalized_PDF(temp_fit,param[5],param[6],disttype); ii = np.isnan(pdf3); pdf3[ii] = 0
+       Prob=(1-param[4]-param[7])*pdf1+param[4]*pdf2+param[7]*pdf3
    if nsubpop==2:
        if fice is False:
           beta=param[5]
        if fice is True:
           beta=1
-       Prob = (1-param[4])*normalized_PDF(temp_fit,param[0],param[1])+param[4]*normalized_PDF(temp_fit,param[2],param[3]) 
+       #Prob = (1-param[4])*normalized_PDF(temp_fit,param[0],param[1])+param[4]*normalized_PDF(temp_fit,param[2],param[3]) 
+       pdf1=normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(pdf1); pdf1[ii] = 0
+       pdf2=normalized_PDF(temp_fit,param[2],param[3],disttype); ii = np.isnan(pdf2); pdf2[ii] = 0
+       Prob=(1-param[4])*pdf1+param[4]*pdf2
    if nsubpop==1:
        if fice is False:
           beta=param[2]
        if fice is True:
           beta=1
-       Prob = normalized_PDF(temp_fit,param[0],param[1]) 
+       Prob = normalized_PDF(temp_fit,param[0],param[1],disttype); ii = np.isnan(Prob); Prob[ii] = 0
    integral_normalized=np.cumsum(Prob)*(temp_fit[1]-temp_fit[0])
    if fice is False:
       #g=beta*(1-integral_normalized)
