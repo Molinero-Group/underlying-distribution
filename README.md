@@ -1,3 +1,4 @@
+<a href="https://zenodo.org/badge/latestdoi/559044289"><img src="https://zenodo.org/badge/559044289.svg" alt="DOI"></a>
 
 Table of contents
 =================
