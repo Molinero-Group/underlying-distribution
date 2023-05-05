@@ -94,12 +94,13 @@ After answering a series of questions, HUB-backward will generate a few files in
 
 HUB-backward requires an input file located in the directory called input that has to be located in the same directory as the code. The file has to be a text format .txt, the first column is temperature, and the second column is $N_m (T)$ or $f_{ice} (T)$. 
 
-Examples are located inside the input directory:\
-Nm_bacteria.txt (Schwidetzky et al., 2021)\
-Nm_fusarium_kunert2019_strain_3-68.txt (Kunert et al., 2019)\
-Nm_pollen_thesis.txt (Dreischmeier, 2019)\
-Nm_pH_6p2.txt, Nm_pH_5p6.txt and Nm_pH_4p4.txt (Lukas et al., 2020)\
-fractionofice_cholesterol_fig10.txt and fractionofice_cholesterol_fig13.txt (Zhang and Maeda, 2022)
+Examples are located inside the input directory. \
+The input data used as examples for the HUB-backward code are not our own, and were obtained from the following sources:\
+Nm_bacteria.txt (Schwidetzky et al., 2021) DOI: [10.1021/acs.jpclett.1c03118](https://doi.org/10.1021/acs.jpclett.1c03118)\
+Nm_fusarium_kunert2019_strain_3-68.txt (Kunert et al., 2019) DOI: [10.5194/bg-16-4647-2019](https://doi.org/10.5194/bg-16-4647-2019)\
+Nm_pollen_thesis.txt (Dreischmeier, 2019) DOI: [10.4119/unibi/2907691](https://doi.org/10.4119/unibi/2907691)\
+Nm_pH_6p2.txt, Nm_pH_5p6.txt and Nm_pH_4p4.txt (Lukas et al., 2020) DOI: [10.1021/jacs.9b13069](https://doi.org/10.1021/jacs.9b13069)\
+fractionofice_cholesterol_fig10.txt and fractionofice_cholesterol_fig13.txt (Zhang and Maeda, 2022) DOI: [10.1016/j.ces.2022.118017](https://doi.org/10.1016/j.ces.2022.118017)
 
 # Acknowledgements 
 
